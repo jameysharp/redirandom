@@ -1,0 +1,26 @@
+{
+  "name": "redirandom",
+  "version": "1.0.0",
+  "description": "Redirect to randomly selected URLs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jameysharp/redirandom.git"
+  },
+  "author": "Jamey Sharp <jamey@minilop.net>",
+  "license": "AGPL-3.0-only",
+  "bugs": {
+    "url": "https://github.com/jameysharp/redirandom/issues"
+  },
+  "homepage": "https://github.com/jameysharp/redirandom#readme",
+  "dependencies": {
+    "@netlify/cache": "^3.0.9",
+    "@netlify/functions": "^4.2.1"
+  },
+  "devDependencies": {
+    "netlify-cli": "^22.1.7"
+  }
+}

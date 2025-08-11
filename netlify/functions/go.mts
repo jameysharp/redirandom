@@ -6,7 +6,7 @@ export const config: Config = {
 };
 
 export default async (req: Request, context: Context) => {
-  let url = context.params[0];
+  let url = new URL(context.params[0]).toString();
   let seen = [];
   while (seen.length < 10) {
     seen.push(url);
@@ -15,23 +15,23 @@ export default async (req: Request, context: Context) => {
     const body = await cached.text();
     const lines = body.split(/\r?\n/);
     const choices = Array.from(
-      Iterator.from(lines).map(parseLine).filter((choice) => accept(choice, seen))
+      Iterator.from(lines).map((line) => parseLine(line, url)).filter((choice) => accept(choice, seen))
     );
     // console.log(choices);
     const chosen = choices[Math.floor(Math.random() * choices.length)];
+    url = chosen.url;
     if (!chosen.nested) {
       return new Response(null, {
         status: 302,
         headers: {
-          location: chosen.url,
+          location: url,
         },
       });
     }
-    url = chosen.url;
   }
 };
 
-function parseLine(line) {
+function parseLine(line, base) {
   line = line.trim();
   if (line.length == 0 || line.startsWith("#")) {
     return null;
@@ -43,7 +43,7 @@ function parseLine(line) {
     line = line.substring(1).trim();
   }
 
-  return { url: line, nested: nested };
+  return { url: new URL(line, base).toString(), nested: nested };
 }
 
 function accept(choice, seen) {

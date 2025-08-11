@@ -4,9 +4,9 @@ Given a simple text file somewhere on the web containing a list of URLs, this
 web app will pick one of those URLs at random and generate a temporary redirect
 (HTTP status 302) to it.
 
-For example, given the URLs in <https://redirandom.netlify.app/sample2>,
+For example, given the URLs in <https://jameysharp.github.io/redirandom/sample2>,
 clicking this link will redirect you to one of them, chosen randomly:
-<https://redirandom.netlify.app/go/https://redirandom.netlify.app/sample2>
+<https://redirandom.netlify.app/go/https://jameysharp.github.io/redirandom/sample2>
 
 My goal is to build the simplest possible "ad server" for use by web site
 owners who want to help out other web site owners by showing banner ads for
@@ -35,6 +35,12 @@ reference. That allows them to change their ad campaigns without having to
 coordinate with anyone. (But if you don't want to let your advertisers change
 campaigns without talking with you, then you could copy their URL lists into
 your own, instead of incorporating them by reference.)
+
+This next example, <https://jameysharp.github.io/redirandom/sample>, includes
+the earlier example by reference and adds additional links. It also includes
+itself by reference, which is filtered out to avoid accidents involving loops.
+This link will redirect you to one URL drawn from either list at random:
+<https://redirandom.netlify.app/go/https://jameysharp.github.io/redirandom/sample>
 
 These nested lists can go multiple layers deep. For example, a web ring or
 other community might publish a list of all the participating web sites, where

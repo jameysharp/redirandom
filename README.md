@@ -48,6 +48,11 @@ each site has their own list with one or several ad campaigns in it, and then
 you might have a third list of all the communities and individual sites you
 want to support.
 
+In a third example, this tool serves HTML for use in an `iframe`, instead of a
+redirect. <https://jameysharp.github.io/redirandom/image-sample> illustrates
+the alternate format for this, and you can see it in action on the [image demo
+page](https://jameysharp.github.io/redirandom/image-sample.html).
+
 There are many features in real "ad servers" that this approach does not
 support and that I have no intention of adding. For example, this doesn't
 provide any analytics for tracking impressions, clicks, or conversions. There's

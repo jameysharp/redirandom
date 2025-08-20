@@ -21,7 +21,7 @@ export default async (req: Request, context: Context) => {
     const chosen = choices[Math.floor(Math.random() * choices.length)];
     url = chosen.url;
     if (!chosen.nested) {
-      const response = '<!DOCTYPE html><style>body{margin:0}a,img{display:block}img{width:100%;height:auto}</style>'
+      const response = '<!DOCTYPE html><style>body{margin:0}a,img{display:block}img{width:100%;height:auto;border:0}</style>'
         + '<a target="_blank" rel="nofollow" href="'
         + escapeAttribute(chosen.url)
         + '"><img src="'
@@ -34,7 +34,7 @@ export default async (req: Request, context: Context) => {
         + context.params[0]
         + ' height='
         + context.params[1]
-        + ' border=0></a>';
+        + '></a>';
       return new Response(response, {
         headers: {
           "content-type": "text/html",

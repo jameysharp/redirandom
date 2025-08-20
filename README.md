@@ -82,13 +82,13 @@ There's currently a demo instance at <https://redirandom.netlify.app/image/>
 but I may change that at any time. (You can run your own instance if that's
 something you're into.)
 
-If you want to use the demo instance, and your space is 720 pixels wide and 90
+If you want to use the demo instance, and your space is 728 pixels wide and 90
 pixels tall, and you placed your text file at `https://example.com/my-friends`,
 then you'd add this HTML to your site:
 
 ```
-<iframe style="border: 0" width=720 height=90
-  src="https://redirandom.netlify.app/image/720/90/https://example.com/my-friends">
+<iframe style="border: 0" width=728 height=90
+  src="https://redirandom.netlify.app/image/728/90/https://example.com/my-friends">
 </iframe>
 ```
 
@@ -99,6 +99,31 @@ add arbitrary HTML to your pages like this, but you may need to dig into their
 documentation to figure out how.
 
 ## Tips and variations
+
+### Responsive design
+
+If you want the image to scale to fit in a smaller area, you can add additional
+styles to the `<iframe>` tag. This involves three parts:
+
+- Set the aspect ratio, so the width and height will both scale proportionally.
+  It's easiest to do this by writing out the same width and height again, like
+  `aspect-ratio: {w}/{h}`.
+
+- If you want to allow the image to shrink smaller than its natural size, but
+  not to grow larger, then use `max-width: 100%`. If you want it to grow to
+  fill available space, use `width: 100%`, but this is not recommended because
+  scaling an image up generally makes it blurry or otherwise less appealing.
+
+- Finally, allow the height to scale using `height: auto`.
+
+So the above example of a 728x90 image could be extended like this:
+
+```
+<iframe width=728 height=90
+  style="border: 0; max-width: 100%; height: auto; aspect-ratio: 728/90"
+  src="https://redirandom.netlify.app/image/728/90/https://example.com/my-friends">
+</iframe>
+```
 
 ### Image size conventions
 

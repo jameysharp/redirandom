@@ -9,16 +9,19 @@ independent of the ad-tech industry. I have a little [demo][] which shows ads
 from several webcomics whose authors supported another of my projects, [Comic
 Rocket][].
 
-Although I'm using the word "ad", there doesn't have to be any money changing
-hands, and in fact this tool does not provide any help if you want to get paid
-for displaying ads. You could make arrangements by other means to get paid if
-you want to, and then use this tool just for making the ads show up, but that's
-none of my business and is between you and your advertisers.
-
 [demo]: https://jameysharp.github.io/redirandom/image-sample.html
 [Comic Rocket]: https://www.comic-rocket.com/
 
-## For "advertisers"
+This is not designed for paid advertising. If you want to make money from ads
+on your web site, you should look at any of the many ad networks dedicated to
+that.
+
+But the visual form of banner advertising can be an attractive alternative to
+plain text links, when used judiciously to support web sites you authentically
+like. With this project my goal is to make it easy for small/indie web sites
+to boost each other.
+
+## If you want other people to boost your site
 
 If you'd appreciate friendly people voluntarily showing ads on their web sites
 for whatever you're working on, you should make it easy for them to do that.
@@ -48,7 +51,7 @@ Put this file on your web site somewhere too. Finally, you can tell people the
 URL of this text file. That's all they need from you to start showing your ads
 on their site.
 
-## For "publishers"
+## If you want to boost other people's sites
 
 If you've gotten some of the above URLs from people you want to support, put
 them in a plain text file, one per line:
@@ -128,10 +131,10 @@ So the above example of a 728x90 image could be extended like this:
 
 It's helpful to use [common banner ad sizes][ad-formats] such as 728x90 for
 wide "leaderboard" ads, 160x600 for tall "skyscraper" ads, or 88x31 for small
-buttons. If the advertiser doesn't have any images of the size that the
-publisher is expecting then things won't go well, so it helps if everybody
-agrees on a few common sizes. But you certainly can offer other sizes if you
-want, and see if anybody else wants to support them.
+buttons. If your list of ads doesn't have any images of the size that fit in
+the space you've set aside to show them in, then nothing will show up. So it
+helps if everybody agrees on a few common sizes. But you certainly can offer
+other sizes if you want, and see if anybody else wants to support them.
 
 [ad-formats]: https://en.wikipedia.org/wiki/Digital_display_advertising#Importance_of_formats_of_display_ads
 
@@ -223,9 +226,9 @@ This tool does not send any JavaScript to visitors' web browsers, so these ads
 can't hide cryptocurrency miners or other malware. And I don't track anything
 about your web site visitors.
 
-But you don't entirely have to take my word for it. The sample HTML for
-publishers above is the simplest form that works, but you can safely add more
-settings to restrict these ads in a variety of ways.
+But you don't entirely have to take my word for it. The sample HTML above is
+the simplest form that works, but you can safely add more settings to restrict
+these ads in a variety of ways.
 
 To enforce that ads can't use JavaScript, you can add this attribute to the
 `iframe` tag:

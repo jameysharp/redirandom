@@ -29,20 +29,19 @@ there are many artists out there who would be delighted if you would commission
 some nice images from them.)
 
 Second, make a plain text file where each line describes one of the ads you
-made. You need to provide three pieces of information:
+made. You need to provide these pieces of information:
 
+- What are the dimensions (width and height) of this ad image?
 - What web page do you want to send someone to if they click on this ad?
 - What image do you want to display for this ad, and what URL is it at?
 - What text do you want to present as an alternative for people who can't see
   the image?
 
-(*TODO: Image dimensions probably should go here too.*)
-
-These three parts should be separated by spaces or tabs. So it looks like:
+These parts should be separated by spaces or tabs. So it looks like:
 
 ```
-https://link.example/kitties https://image.example/kitties.webp Look, kitties!
-https://link.example/puppies https://image.example/puppies.jpg Oh it's puppies!
+160x600 https://link.example/kitties https://image.example/kitties.webp Look, kitties!
+728x90 https://link.example/puppies https://image.example/puppies.jpg Oh it's puppies!
 ```
 
 Put this file on your web site somewhere too. Finally, you can tell people the
@@ -252,8 +251,11 @@ Other information about visitors is available to the service and I'm not aware
 of anything that you as a web developer can do to limit it. For example,
 
 - visitor IP address (and by extension their approximate location)
-- fingerprintable browser behavior, including the `user-agent` request header
-  and TLS fingerprinting methods such as JA3
+- [fingerprintable browser behavior][fingerprinting], including the
+  `user-agent` request header and TLS fingerprinting methods such as [JA3][]
+
+[fingerprinting]: https://pitg.network/news/2025/08/15/browser-fingerprinting.html
+[JA3]: https://engineering.salesforce.com/tls-fingerprinting-with-ja3-and-ja3s-247362855967/
 
 For these cases, you may need to trust that the service is not using these
 methods to track individual visitors. You do always have the option of running

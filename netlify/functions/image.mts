@@ -2,11 +2,12 @@ import { fetchWithCache } from "@netlify/cache";
 import type { Context } from "@netlify/functions";
 
 export const config: Config = {
-  path: "/image/(\\d+)/(\\d+)/*"
+  path: "/image/:width(\\d+)/:height(\\d+)/:url_part(.*)"
 };
 
 export default async (req: Request, context: Context) => {
-  let url = new URL(context.params[2]).toString();
+  const { width, height, url_part } = context.params;
+  let url = new URL(url_part).toString();
   let seen = [];
   while (seen.length < 10) {
     seen.push(url);
@@ -15,12 +16,16 @@ export default async (req: Request, context: Context) => {
     const body = await cached.text();
     const lines = body.split(/\r?\n/);
     const choices = Array.from(
-      Iterator.from(lines).map((line) => parseLine(line, url)).filter((choice) => accept(choice, seen))
+      Iterator.from(lines).map((line) => parseLine(line, url)).filter((choice) => accept(choice, width, height, seen))
     );
     // console.log(choices);
+    if (choices.length == 0) {
+      break;
+    }
+
     const chosen = choices[Math.floor(Math.random() * choices.length)];
     url = chosen.url;
-    if (!chosen.nested) {
+    if (chosen.img) {
       const response = '<!DOCTYPE html><style>body{margin:0}a,img{display:block}img{width:100%;height:auto;border:0}</style>'
         + '<a target="_blank" rel="nofollow" href="'
         + escapeAttribute(chosen.url)
@@ -31,9 +36,9 @@ export default async (req: Request, context: Context) => {
         + '" alt="'
         + escapeAttribute(chosen.alt)
         + '" width='
-        + context.params[0]
+        + (chosen.width || width)
         + ' height='
-        + context.params[1]
+        + (chosen.height || height)
         + '></a>';
       return new Response(response, {
         headers: {
@@ -42,6 +47,11 @@ export default async (req: Request, context: Context) => {
       });
     }
   }
+
+  // couldn't find any satisfying images, either because we hit the recursion
+  // limit or because all the choices in the last list we looked at got filtered
+  // out.
+  return new Response("");
 };
 
 function parseLine(line, base) {
@@ -50,26 +60,41 @@ function parseLine(line, base) {
     return null;
   }
 
-  const parts = /(\S+)(?:\s+(\S+)(?:\s+(.*))?)?/.exec(line);
+  const parts = /^(?:(\d+)x(\d+)\s+)?(\S+)(?:\s+(\S+)\s*(.*))?$/.exec(line);
   if (!parts) {
     return null;
   }
 
-  const nested = !parts[2];
-  const url = new URL(parts[1], base).toString();
-  const img = parts[2] ? new URL(parts[2], base).toString() : "";
-  const alt = parts[3] || "";
+  const [, width, height, url_part, img_part, alt_part] = parts;
+  const url = new URL(url_part, base).toString();
+  const img = img_part ? new URL(img_part, base).toString() : "";
+  const alt = alt_part || "";
 
-  return { url, img, alt, nested };
+  return { width, height, url, img, alt };
 }
 
-function accept(choice, seen) {
+function accept(choice, width, height, seen) {
   if (!choice) {
     return false;
   }
 
-  if (choice.nested && seen.includes(choice.url)) {
+  if (!choice.img && seen.includes(choice.url)) {
     return false;
+  }
+
+  if (choice.width) {
+    // only pick images we wouldn't have to scale up
+    if (choice.width < width || choice.height < height) {
+      return false;
+    }
+
+    // if we scale width to match the container, ensure that height falls within
+    // a couple of pixels of the container's height too. two pixels is enough to
+    // allow both 468x60 and 728x90 images in an 8:1 aspect ratio box
+    const scale = width / choice.width;
+    if (Math.abs(scale * choice.height - height) > 2) {
+      return false;
+    }
   }
 
   return true;
